@@ -7,7 +7,8 @@ class App extends Component {
     super();
 
     this.state = {
-      monsters: []
+      monsters: [],
+      searchField: ''
     };
   }
 
@@ -21,10 +22,23 @@ class App extends Component {
 
 
   render() {
+    const { monsters, searchField } = this.state;
+    const filteredMonsters = monsters.filter(monster => 
+      monster.name.toLowerCase().includes(searchField.toLowerCase())
+    );  //we destructure state props to names
+        //in new var we call filter on monsters array, on each monster name we check
+        //if it includes what is in searchField
+        //PS we lowerCase everything to simplify the process
+
+
     return (
       <div className='App'>
-        <CardList monsters={this.state.monsters}>
-        </CardList>
+        <input 
+          type='search' 
+          placeholder='search monsters' 
+          onChange={e => this.setState({ searchField: e.target.value })}
+        />
+        <CardList monsters={ filteredMonsters } />
       </div>
     );
   }
